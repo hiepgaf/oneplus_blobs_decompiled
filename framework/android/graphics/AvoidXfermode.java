@@ -1,0 +1,31 @@
+package android.graphics;
+
+@Deprecated
+public class AvoidXfermode
+  extends Xfermode
+{
+  public AvoidXfermode(int paramInt1, int paramInt2, Mode paramMode)
+  {
+    if ((paramInt2 < 0) || (paramInt2 > 255)) {
+      throw new IllegalArgumentException("tolerance must be 0..255");
+    }
+  }
+  
+  public static enum Mode
+  {
+    AVOID(0),  TARGET(1);
+    
+    final int nativeInt;
+    
+    private Mode(int paramInt1)
+    {
+      this.nativeInt = paramInt1;
+    }
+  }
+}
+
+
+/* Location:              /Users/joshua/Desktop/system_framework/classes-dex2jar.jar!/android/graphics/AvoidXfermode.class
+ * Java compiler version: 6 (50.0)
+ * JD-Core Version:       0.7.1
+ */
