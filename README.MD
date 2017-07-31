@@ -25,5 +25,5 @@ Save all source files somewhere.
 
 -------
 
-boot-oneplus_sdk_utils.oat
+*boot-oneplus_sdk_utils.oat*
 * embryo
