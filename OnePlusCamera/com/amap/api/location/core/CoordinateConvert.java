@@ -19,56 +19,45 @@ public class CoordinateConvert
     return null;
   }
   
-  public static double[] fromSeveralGpsToAMap(String paramString)
-  {
-    int i = 0;
-    try
-    {
-      paramString = paramString.split(",");
-      int j = paramString.length;
-      double[] arrayOfDouble1 = new double[j];
-      for (;;)
-      {
-        if (i >= j / 2) {
-          return arrayOfDouble1;
+    public static double[] fromSeveralGpsToAMap(final String s) {
+        int i = 0;
+        final String s2 = ",";
+        try {
+            final String[] split = s.split(s2);
+            final int length = split.length;
+            final double[] array = new double[length];
+            while (i < length / 2) {
+                final double[] a = u.a(Double.parseDouble(split[i * 2]), Double.parseDouble(split[i * 2 + 1]));
+                array[i * 2] = a[0];
+                array[i * 2 + 1] = a[1];
+                ++i;
+            }
+            return array;
         }
-        double[] arrayOfDouble2 = u.a(Double.parseDouble(paramString[(i * 2)]), Double.parseDouble(paramString[(i * 2 + 1)]));
-        arrayOfDouble1[(i * 2)] = arrayOfDouble2[0];
-        arrayOfDouble1[(i * 2 + 1)] = arrayOfDouble2[1];
-        i += 1;
-      }
-      return null;
-    }
-    catch (Throwable paramString)
-    {
-      paramString.printStackTrace();
-    }
-  }
-  
-  public static double[] fromSeveralGpsToAMap(double[] paramArrayOfDouble)
-  {
-    int i = 0;
-    try
-    {
-      int j = paramArrayOfDouble.length;
-      double[] arrayOfDouble1 = new double[j];
-      for (;;)
-      {
-        if (i >= j / 2) {
-          return arrayOfDouble1;
+        finally {
+            loadexception(java.lang.Throwable.class).printStackTrace();
+            return null;
         }
-        double[] arrayOfDouble2 = u.a(paramArrayOfDouble[(i * 2)], paramArrayOfDouble[(i * 2 + 1)]);
-        arrayOfDouble1[(i * 2)] = arrayOfDouble2[0];
-        arrayOfDouble1[(i * 2 + 1)] = arrayOfDouble2[1];
-        i += 1;
-      }
-      return null;
     }
-    catch (Throwable paramArrayOfDouble)
-    {
-      paramArrayOfDouble.printStackTrace();
+    
+    public static double[] fromSeveralGpsToAMap(final double[] array) {
+        int i = 0;
+        try {
+            final int length = array.length;
+            final double[] array2 = new double[length];
+            while (i < length / 2) {
+                final double[] a = u.a(array[i * 2], array[i * 2 + 1]);
+                array2[i * 2] = a[0];
+                array2[i * 2 + 1] = a[1];
+                ++i;
+            }
+            return array2;
+        }
+        finally {
+            loadexception(java.lang.Throwable.class).printStackTrace();
+            return null;
+        }
     }
-  }
 }
 
 

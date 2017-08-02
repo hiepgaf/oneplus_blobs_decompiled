@@ -1,555 +1,383 @@
+// 
+// Decompiled by Procyon v0.5.30
+// 
+
 package com.adobe.xmp.impl;
 
 import com.adobe.xmp.XMPConst;
 
-public class Utils
-  implements XMPConst
+public class Utils implements XMPConst
 {
-  public static final int UUID_LENGTH = 36;
-  public static final int UUID_SEGMENT_COUNT = 4;
-  private static boolean[] xmlNameChars;
-  private static boolean[] xmlNameStartChars;
-  
-  static {}
-  
-  static boolean checkUUIDFormat(String paramString)
-  {
-    int j;
-    int k;
-    int i;
-    if (paramString != null)
-    {
-      j = 0;
-      k = 0;
-      i = 1;
-      for (;;)
-      {
-        if (j >= paramString.length()) {
-          break label82;
-        }
-        if (paramString.charAt(j) == '-') {
-          break;
-        }
-        j += 1;
-      }
+    public static final int UUID_LENGTH = 36;
+    public static final int UUID_SEGMENT_COUNT = 4;
+    private static boolean[] xmlNameChars;
+    private static boolean[] xmlNameStartChars;
+    
+    static {
+        initCharTables();
     }
-    return false;
-    if (i == 0) {}
-    for (;;)
-    {
-      i = 0;
-      k += 1;
-      break;
-      if (j == 8) {}
-      while ((j == 13) || (j == 18) || (j == 23))
-      {
-        i = 1;
-        break;
-      }
-    }
-    label82:
-    if (i == 0) {}
-    while ((4 != k) || (36 != j)) {
-      return false;
-    }
-    return true;
-  }
-  
-  public static String escapeXML(String paramString, boolean paramBoolean1, boolean paramBoolean2)
-  {
-    int j = 0;
-    int i = 0;
-    int k;
-    if (i < paramString.length())
-    {
-      k = paramString.charAt(i);
-      if (k != 60) {}
-    }
-    label30:
-    for (i = 1;; i = 0)
-    {
-      StringBuffer localStringBuffer;
-      label59:
-      char c;
-      if (i != 0)
-      {
-        localStringBuffer = new StringBuffer(paramString.length() * 4 / 3);
-        i = j;
-        if (i >= paramString.length()) {
-          break label319;
-        }
-        c = paramString.charAt(i);
-        if (paramBoolean2) {
-          break label207;
-        }
-      }
-      switch (c)
-      {
-      default: 
-        localStringBuffer.append(c);
-      case '<': 
-      case '>': 
-      case '&': 
-        for (;;)
-        {
-          label131:
-          i += 1;
-          break label59;
-          if ((k == 62) || (k == 38)) {
-            break label30;
-          }
-          if (!paramBoolean2) {
-            label158:
-            if (paramBoolean1) {
-              break label195;
+    
+    static boolean checkUUIDFormat(final String s) {
+        final boolean b = true;
+        final float n = Float.MIN_VALUE;
+        if (s != null) {
+            int i = 0;
+            int n2 = 0;
+            int n3 = b ? 1 : 0;
+            float n4 = n;
+            while (i < s.length()) {
+                int n5;
+                float n6;
+                if (s.charAt(i) != '-') {
+                    n5 = n3;
+                    n6 = n4;
+                }
+                else {
+                    final int n7 = n2 + 1;
+                    int n8;
+                    float n9;
+                    if (n3 != 0 && (i == 8 || i == 13 || i == 18 || i == 23)) {
+                        n8 = (b ? 1 : 0);
+                        n9 = n;
+                    }
+                    else {
+                        n8 = 0;
+                        n9 = 0.0f;
+                    }
+                    final int n10 = n7;
+                    n5 = n8;
+                    n6 = n9;
+                    n2 = n10;
+                }
+                ++i;
+                n3 = n5;
+                n4 = n6;
             }
-          }
-          for (;;)
-          {
-            i += 1;
-            break;
-            if ((k == 9) || (k == 10)) {
-              break label30;
-            }
-            if (k != 13) {
-              break label158;
-            }
-            break label30;
-            label195:
-            if (k == 34) {
-              break label30;
-            }
-          }
-          return paramString;
-          label207:
-          if (c == '\t') {}
-          for (;;)
-          {
-            localStringBuffer.append("&#x");
-            localStringBuffer.append(Integer.toHexString(c).toUpperCase());
-            localStringBuffer.append(';');
-            break label131;
-            if (c != '\n') {
-              if (c != '\r') {
-                break;
-              }
-            }
-          }
-          localStringBuffer.append("&lt;");
-          continue;
-          localStringBuffer.append("&gt;");
-          continue;
-          localStringBuffer.append("&amp;");
+            return n3 != 0 && 4 == n2 && 36 == i && b;
         }
-      }
-      if (!paramBoolean1) {}
-      for (String str = "\"";; str = "&quot;")
-      {
-        localStringBuffer.append(str);
-        break;
-      }
-      label319:
-      return localStringBuffer.toString();
-    }
-  }
-  
-  private static void initCharTables()
-  {
-    xmlNameChars = new boolean['Ā'];
-    xmlNameStartChars = new boolean['Ā'];
-    int i = 0;
-    if (i < xmlNameChars.length)
-    {
-      boolean[] arrayOfBoolean = xmlNameStartChars;
-      label36:
-      label42:
-      label48:
-      int j;
-      if (97 > i)
-      {
-        if (65 <= i) {
-          break label105;
-        }
-        if (i != 58) {
-          break label114;
-        }
-        j = 1;
-        label50:
-        arrayOfBoolean[i] = j;
-        arrayOfBoolean = xmlNameChars;
-        if (97 <= i) {
-          break label159;
-        }
-        label64:
-        if (65 <= i) {
-          break label168;
-        }
-        label70:
-        if (48 <= i) {
-          break label177;
-        }
-        label76:
-        if (i != 58) {
-          break label186;
-        }
-      }
-      for (;;)
-      {
-        j = 1;
-        label84:
-        arrayOfBoolean[i] = j;
-        i = (char)(i + 1);
-        break;
-        if (i > 122) {
-          break label36;
-        }
-        break label48;
-        label105:
-        if (i > 90) {
-          break label42;
-        }
-        break label48;
-        label114:
-        if (i == 95) {
-          break label48;
-        }
-        if (192 > i) {
-          label127:
-          if (216 <= i) {
-            break label149;
-          }
-        }
-        label149:
-        while (i > 246)
-        {
-          j = 0;
-          break label50;
-          if (i > 214) {
-            break label127;
-          }
-          break;
-        }
-        break label48;
-        label159:
-        if (i > 122) {
-          break label64;
-        }
-        continue;
-        label168:
-        if (i > 90) {
-          break label70;
-        }
-        continue;
-        label177:
-        if (i > 57) {
-          break label76;
-        }
-        continue;
-        label186:
-        if ((i != 95) && (i != 45) && (i != 46) && (i != 183))
-        {
-          if (192 > i) {
-            label218:
-            if (216 <= i) {
-              break label240;
-            }
-          }
-          label240:
-          while (i > 246)
-          {
-            j = 0;
-            break label84;
-            if (i > 214) {
-              break label218;
-            }
-            break;
-          }
-        }
-      }
-    }
-  }
-  
-  static boolean isControlChar(char paramChar)
-  {
-    if (paramChar <= '\037') {
-      if (paramChar != '\t') {
-        break label23;
-      }
-    }
-    label23:
-    while ((paramChar == '\n') || (paramChar == '\r')) {
-      for (;;)
-      {
         return false;
-        if (paramChar == '') {
-          break;
+    }
+    
+    public static String escapeXML(final String s, final boolean b, final boolean b2) {
+        final char c = '\r';
+        final char c2 = '\n';
+        final char c3 = '\t';
+        int i = 0;
+        int j = 0;
+        while (true) {
+            while (j < s.length()) {
+                final char char1 = s.charAt(j);
+                Label_0052: {
+                    if (char1 != '<' && char1 != '>' && char1 != '&') {
+                        if (b2) {
+                            if (char1 == c3 || char1 == c2) {
+                                break Label_0052;
+                            }
+                            if (char1 == c) {
+                                break Label_0052;
+                            }
+                        }
+                        if (b || char1 != '\"') {
+                            ++j;
+                            continue;
+                        }
+                    }
+                }
+                final int n = 1;
+                if (n != 0) {
+                    final StringBuffer sb = new StringBuffer(s.length() * 4 / 3);
+                    while (i < s.length()) {
+                        final char char2 = s.charAt(i);
+                        if (b2 && (char2 == c3 || char2 == c2 || char2 == c)) {
+                            sb.append("&#x");
+                            sb.append(Integer.toHexString(char2).toUpperCase());
+                            sb.append(';');
+                        }
+                        else {
+                            switch (char2) {
+                                default: {
+                                    sb.append(char2);
+                                    break;
+                                }
+                                case '<': {
+                                    sb.append("&lt;");
+                                    break;
+                                }
+                                case '>': {
+                                    sb.append("&gt;");
+                                    break;
+                                }
+                                case '&': {
+                                    sb.append("&amp;");
+                                    break;
+                                }
+                                case '\"': {
+                                    String s2;
+                                    if (!b) {
+                                        s2 = "\"";
+                                    }
+                                    else {
+                                        s2 = "&quot;";
+                                    }
+                                    sb.append(s2);
+                                    break;
+                                }
+                            }
+                        }
+                        ++i;
+                    }
+                    return sb.toString();
+                }
+                return s;
+            }
+            final int n = 0;
+            continue;
         }
-      }
     }
-    return true;
-  }
-  
-  static boolean isInternalProperty(String paramString1, String paramString2)
-  {
-    if (!"http://purl.org/dc/elements/1.1/".equals(paramString1))
-    {
-      if ("http://ns.adobe.com/xap/1.0/".equals(paramString1)) {
-        break label159;
-      }
-      if ("http://ns.adobe.com/pdf/1.3/".equals(paramString1)) {
-        break label217;
-      }
-      if ("http://ns.adobe.com/tiff/1.0/".equals(paramString1)) {
-        break label266;
-      }
-      if ("http://ns.adobe.com/exif/1.0/".equals(paramString1)) {
-        break label295;
-      }
-      if ("http://ns.adobe.com/exif/1.0/aux/".equals(paramString1)) {
-        break label306;
-      }
-      if ("http://ns.adobe.com/photoshop/1.0/".equals(paramString1)) {
-        break label308;
-      }
-      if ("http://ns.adobe.com/camera-raw-settings/1.0/".equals(paramString1)) {
-        break label319;
-      }
-      if ("http://ns.adobe.com/StockPhoto/1.0/".equals(paramString1)) {
-        break label350;
-      }
-      if ("http://ns.adobe.com/xap/1.0/mm/".equals(paramString1)) {
-        break label352;
-      }
-      if ("http://ns.adobe.com/xap/1.0/t/".equals(paramString1)) {
-        break label354;
-      }
-      if ("http://ns.adobe.com/xap/1.0/t/pg/".equals(paramString1)) {
-        break label356;
-      }
-      if ("http://ns.adobe.com/xap/1.0/g/".equals(paramString1)) {
-        break label358;
-      }
-      if ("http://ns.adobe.com/xap/1.0/g/img/".equals(paramString1)) {
-        break label360;
-      }
-      if ("http://ns.adobe.com/xap/1.0/sType/Font#".equals(paramString1)) {
-        break label362;
-      }
-    }
-    label159:
-    label217:
-    label266:
-    label295:
-    label306:
-    label308:
-    while (!"photoshop:ICCProfile".equals(paramString2))
-    {
-      do
-      {
-        do
-        {
-          return false;
-          if ("dc:format".equals(paramString2)) {}
-          while ("dc:language".equals(paramString2)) {
-            return true;
-          }
-          return false;
-          if ("xmp:BaseURL".equals(paramString2)) {}
-          while (("xmp:CreatorTool".equals(paramString2)) || ("xmp:Format".equals(paramString2)) || ("xmp:Locale".equals(paramString2)) || ("xmp:MetadataDate".equals(paramString2)) || ("xmp:ModifyDate".equals(paramString2))) {
-            return true;
-          }
-          return false;
-          if ("pdf:BaseURL".equals(paramString2)) {}
-          while (("pdf:Creator".equals(paramString2)) || ("pdf:ModDate".equals(paramString2)) || ("pdf:PDFVersion".equals(paramString2)) || ("pdf:Producer".equals(paramString2))) {
-            return true;
-          }
-          return false;
-        } while (("tiff:ImageDescription".equals(paramString2)) || ("tiff:Artist".equals(paramString2)) || ("tiff:Copyright".equals(paramString2)));
-        return true;
-      } while ("exif:UserComment".equals(paramString2));
-      return true;
-      return true;
-    }
-    return true;
-    label319:
-    if ("crs:Version".equals(paramString2)) {}
-    while (("crs:RawFileName".equals(paramString2)) || ("crs:ToneCurveName".equals(paramString2))) {
-      return true;
-    }
-    return false;
-    label350:
-    return true;
-    label352:
-    return true;
-    label354:
-    return true;
-    label356:
-    return true;
-    label358:
-    return true;
-    label360:
-    return true;
-    label362:
-    return true;
-  }
-  
-  private static boolean isNameChar(char paramChar)
-  {
-    if (paramChar > 'ÿ') {}
-    while (xmlNameChars[paramChar] != 0) {
-      return true;
-    }
-    return false;
-  }
-  
-  private static boolean isNameStartChar(char paramChar)
-  {
-    if (paramChar > 'ÿ') {}
-    while (xmlNameStartChars[paramChar] != 0) {
-      return true;
-    }
-    return false;
-  }
-  
-  public static boolean isXMLName(String paramString)
-  {
-    if (paramString.length() <= 0) {}
-    while (isNameStartChar(paramString.charAt(0)))
-    {
-      int i = 1;
-      for (;;)
-      {
-        if (i >= paramString.length()) {
-          break label50;
+    
+    private static void initCharTables() {
+        final int n = 90;
+        final int n2 = 65;
+        final int n3 = 58;
+        final boolean b = true;
+        Utils.xmlNameChars = new boolean[256];
+        Utils.xmlNameStartChars = new boolean[256];
+        for (int i = 0; i < Utils.xmlNameChars.length; i = (char)(i + 1)) {
+            final boolean[] xmlNameStartChars = Utils.xmlNameStartChars;
+            boolean b2 = false;
+            Label_0086: {
+                if (97 > i || i > 122) {
+                    if (n2 > i || i > n) {
+                        if (i != n3 && i != 95) {
+                            if (192 > i || i > 214) {
+                                if (216 > i || i > 246) {
+                                    b2 = false;
+                                    break Label_0086;
+                                }
+                            }
+                        }
+                    }
+                }
+                b2 = b;
+            }
+            xmlNameStartChars[i] = b2;
+            final boolean[] xmlNameChars = Utils.xmlNameChars;
+            boolean b3 = false;
+            Label_0135: {
+                if (97 > i || i > 122) {
+                    if (n2 > i || i > n) {
+                        if (48 > i || i > 57) {
+                            if (i != n3 && i != 95 && i != 45 && i != 46 && i != 183) {
+                                if (192 > i || i > 214) {
+                                    if (216 > i || i > 246) {
+                                        b3 = false;
+                                        break Label_0135;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                b3 = b;
+            }
+            xmlNameChars[i] = b3;
         }
-        if (!isNameChar(paramString.charAt(i))) {
-          break;
+    }
+    
+    static boolean isControlChar(final char c) {
+        if (c <= '\u001f' || c == '\u007f') {
+            if (c != '\t' && c != '\n' && c != '\r') {
+                return true;
+            }
         }
-        i += 1;
-      }
-    }
-    return false;
-    return false;
-    label50:
-    return true;
-  }
-  
-  public static boolean isXMLNameNS(String paramString)
-  {
-    int i;
-    if (paramString.length() <= 0) {
-      i = 1;
-    }
-    for (;;)
-    {
-      if (i >= paramString.length()) {
-        break label73;
-      }
-      if (!isNameChar(paramString.charAt(i))) {}
-      while (paramString.charAt(i) == ':')
-      {
         return false;
-        if (!isNameStartChar(paramString.charAt(0))) {}
-        while (paramString.charAt(0) == ':') {
-          return false;
+    }
+    
+    static boolean isInternalProperty(final String s, final String s2) {
+        final boolean b = true;
+        boolean b2 = false;
+        if (!"http://purl.org/dc/elements/1.1/".equals(s)) {
+            if (!"http://ns.adobe.com/xap/1.0/".equals(s)) {
+                if (!"http://ns.adobe.com/pdf/1.3/".equals(s)) {
+                    if (!"http://ns.adobe.com/tiff/1.0/".equals(s)) {
+                        if (!"http://ns.adobe.com/exif/1.0/".equals(s)) {
+                            if (!"http://ns.adobe.com/exif/1.0/aux/".equals(s)) {
+                                if (!"http://ns.adobe.com/photoshop/1.0/".equals(s)) {
+                                    if (!"http://ns.adobe.com/camera-raw-settings/1.0/".equals(s)) {
+                                        if (!"http://ns.adobe.com/StockPhoto/1.0/".equals(s)) {
+                                            if (!"http://ns.adobe.com/xap/1.0/mm/".equals(s)) {
+                                                if (!"http://ns.adobe.com/xap/1.0/t/".equals(s)) {
+                                                    if (!"http://ns.adobe.com/xap/1.0/t/pg/".equals(s)) {
+                                                        if (!"http://ns.adobe.com/xap/1.0/g/".equals(s)) {
+                                                            if (!"http://ns.adobe.com/xap/1.0/g/img/".equals(s)) {
+                                                                if ("http://ns.adobe.com/xap/1.0/sType/Font#".equals(s)) {
+                                                                    b2 = b;
+                                                                }
+                                                            }
+                                                            else {
+                                                                b2 = b;
+                                                            }
+                                                        }
+                                                        else {
+                                                            b2 = b;
+                                                        }
+                                                    }
+                                                    else {
+                                                        b2 = b;
+                                                    }
+                                                }
+                                                else {
+                                                    b2 = b;
+                                                }
+                                            }
+                                            else {
+                                                b2 = b;
+                                            }
+                                        }
+                                        else {
+                                            b2 = b;
+                                        }
+                                    }
+                                    else if ("crs:Version".equals(s2) || "crs:RawFileName".equals(s2) || "crs:ToneCurveName".equals(s2)) {
+                                        b2 = b;
+                                    }
+                                }
+                                else if ("photoshop:ICCProfile".equals(s2)) {
+                                    b2 = b;
+                                }
+                            }
+                            else {
+                                b2 = b;
+                            }
+                        }
+                        else if (!"exif:UserComment".equals(s2)) {
+                            b2 = b;
+                        }
+                    }
+                    else if (!"tiff:ImageDescription".equals(s2) && !"tiff:Artist".equals(s2) && !"tiff:Copyright".equals(s2)) {
+                        b2 = b;
+                    }
+                }
+                else if ("pdf:BaseURL".equals(s2) || "pdf:Creator".equals(s2) || "pdf:ModDate".equals(s2) || "pdf:PDFVersion".equals(s2) || "pdf:Producer".equals(s2)) {
+                    b2 = b;
+                }
+            }
+            else if ("xmp:BaseURL".equals(s2) || "xmp:CreatorTool".equals(s2) || "xmp:Format".equals(s2) || "xmp:Locale".equals(s2) || "xmp:MetadataDate".equals(s2) || "xmp:ModifyDate".equals(s2)) {
+                b2 = b;
+            }
         }
-        break;
-      }
-      i += 1;
-    }
-    label73:
-    return true;
-  }
-  
-  public static String normalizeLangValue(String paramString)
-  {
-    StringBuffer localStringBuffer;
-    int j;
-    int i;
-    int k;
-    if (!"x-default".equals(paramString))
-    {
-      localStringBuffer = new StringBuffer();
-      j = 1;
-      i = 0;
-      if (i >= paramString.length()) {
-        break label138;
-      }
-      k = j;
-      switch (paramString.charAt(i))
-      {
-      default: 
-        if (j == 2)
-        {
-          localStringBuffer.append(Character.toUpperCase(paramString.charAt(i)));
-          k = j;
+        else if ("dc:format".equals(s2) || "dc:language".equals(s2)) {
+            b2 = b;
         }
-        break;
-      }
+        return b2;
     }
-    for (;;)
-    {
-      i += 1;
-      j = k;
-      break;
-      return paramString;
-      localStringBuffer.append('-');
-      k = j + 1;
-      continue;
-      localStringBuffer.append(Character.toLowerCase(paramString.charAt(i)));
-      k = j;
+    
+    private static boolean isNameChar(final char c) {
+        return c > '\u00ff' || Utils.xmlNameChars[c];
     }
-    label138:
-    return localStringBuffer.toString();
-  }
-  
-  static String removeControlChars(String paramString)
-  {
-    int i = 0;
-    paramString = new StringBuffer(paramString);
-    if (i < paramString.length())
-    {
-      if (!isControlChar(paramString.charAt(i))) {}
-      for (;;)
-      {
-        i += 1;
-        break;
-        paramString.setCharAt(i, ' ');
-      }
+    
+    private static boolean isNameStartChar(final char c) {
+        return c > '\u00ff' || Utils.xmlNameStartChars[c];
     }
-    return paramString.toString();
-  }
-  
-  static String[] splitNameAndValue(String paramString)
-  {
-    int j = paramString.indexOf('=');
-    if (paramString.charAt(1) != '?') {}
-    String str;
-    StringBuffer localStringBuffer;
-    for (int i = 1;; i = 2)
-    {
-      str = paramString.substring(i, j);
-      i = j + 1;
-      int k = paramString.charAt(i);
-      i += 1;
-      int m = paramString.length() - 2;
-      localStringBuffer = new StringBuffer(m - j);
-      while (i < m)
-      {
-        localStringBuffer.append(paramString.charAt(i));
-        j = i + 1;
-        i = j;
-        if (paramString.charAt(j) == k) {
-          i = j + 1;
+    
+    public static boolean isXMLName(final String s) {
+        final boolean b = true;
+        if (s.length() > 0 && !isNameStartChar(s.charAt(0))) {
+            return false;
         }
-      }
+        for (int i = b ? 1 : 0; i < s.length(); ++i) {
+            if (!isNameChar(s.charAt(i))) {
+                return false;
+            }
+        }
+        return b;
     }
-    return new String[] { str, localStringBuffer.toString() };
-  }
+    
+    public static boolean isXMLNameNS(final String s) {
+        final char c = ':';
+        final boolean b = true;
+        if (s.length() > 0 && (isNameStartChar(s.charAt(0)) || s.charAt(0) == c)) {
+            return false;
+        }
+        for (int i = b ? 1 : 0; i < s.length(); ++i) {
+            if (isNameChar(s.charAt(i)) || s.charAt(i) == c) {
+                return false;
+            }
+        }
+        return b;
+    }
+    
+    public static String normalizeLangValue(final String s) {
+        if (!"x-default".equals(s)) {
+            final StringBuffer sb = new StringBuffer();
+            int n = 1;
+            int i = 0;
+            while (i < s.length()) {
+                Label_0115: {
+                    switch (s.charAt(i)) {
+                        default: {
+                            if (n == 2) {
+                                sb.append(Character.toUpperCase(s.charAt(i)));
+                                break Label_0115;
+                            }
+                            sb.append(Character.toLowerCase(s.charAt(i)));
+                            break Label_0115;
+                        }
+                        case '-':
+                        case '_': {
+                            sb.append('-');
+                            ++n;
+                        }
+                        case ' ': {
+                            ++i;
+                            continue;
+                        }
+                    }
+                }
+            }
+            return sb.toString();
+        }
+        return s;
+    }
+    
+    static String removeControlChars(final String s) {
+        int i;
+        StringBuffer sb;
+        for (i = 0, sb = new StringBuffer(s); i < sb.length(); ++i) {
+            if (isControlChar(sb.charAt(i))) {
+                sb.setCharAt(i, ' ');
+            }
+        }
+        return sb.toString();
+    }
+    
+    static String[] splitNameAndValue(final String s) {
+        final int n = 2;
+        final int n2 = 1;
+        final int index = s.indexOf(61);
+        int n3;
+        if (s.charAt(n2) != '?') {
+            n3 = n2;
+        }
+        else {
+            n3 = n;
+        }
+        final String substring = s.substring(n3, index);
+        final int n4 = index + 1;
+        final char char1 = s.charAt(n4);
+        int i = n4 + 1;
+        final int n5 = s.length() - 2;
+        final StringBuffer sb = new StringBuffer(n5 - index);
+        while (i < n5) {
+            sb.append(s.charAt(i));
+            ++i;
+            if (s.charAt(i) == char1) {
+                ++i;
+            }
+        }
+        final String[] array = new String[n];
+        array[0] = substring;
+        array[n2] = sb.toString();
+        return array;
+    }
 }
-
-
-/* Location:              /Users/joshua/Desktop/system_framework/classes-dex2jar.jar!/com/adobe/xmp/impl/Utils.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

@@ -32,48 +32,20 @@ public final class XMPMetaFactory
     return schema;
   }
   
-  /* Error */
-  public static XMPVersionInfo getVersionInfo()
-  {
-    // Byte code:
-    //   0: ldc 2
-    //   2: monitorenter
-    //   3: getstatic 21	com/adobe/xmp/XMPMetaFactory:versionInfo	Lcom/adobe/xmp/XMPVersionInfo;
-    //   6: ifnull +12 -> 18
-    //   9: getstatic 21	com/adobe/xmp/XMPMetaFactory:versionInfo	Lcom/adobe/xmp/XMPVersionInfo;
-    //   12: astore_0
-    //   13: ldc 2
-    //   15: monitorexit
-    //   16: aload_0
-    //   17: areturn
-    //   18: new 6	com/adobe/xmp/XMPMetaFactory$1
-    //   21: dup
-    //   22: invokespecial 44	com/adobe/xmp/XMPMetaFactory$1:<init>	()V
-    //   25: putstatic 21	com/adobe/xmp/XMPMetaFactory:versionInfo	Lcom/adobe/xmp/XMPVersionInfo;
-    //   28: goto -19 -> 9
-    //   31: astore_0
-    //   32: getstatic 50	java/lang/System:out	Ljava/io/PrintStream;
-    //   35: aload_0
-    //   36: invokevirtual 56	java/io/PrintStream:println	(Ljava/lang/Object;)V
-    //   39: goto -30 -> 9
-    //   42: astore_0
-    //   43: ldc 2
-    //   45: monitorexit
-    //   46: aload_0
-    //   47: athrow
-    // Local variable table:
-    //   start	length	slot	name	signature
-    //   12	5	0	localXMPVersionInfo	XMPVersionInfo
-    //   31	5	0	localThrowable	Throwable
-    //   42	5	0	localObject	Object
-    // Exception table:
-    //   from	to	target	type
-    //   18	28	31	java/lang/Throwable
-    //   3	9	42	finally
-    //   9	13	42	finally
-    //   18	28	42	finally
-    //   32	39	42	finally
-  }
+    public static XMPVersionInfo getVersionInfo() {
+        synchronized (XMPMetaFactory.class) {
+            if (XMPMetaFactory.versionInfo == null) {
+                try {
+                    XMPMetaFactory.versionInfo = new XMPMetaFactory$1();
+                }
+                finally {
+                    final Throwable t;
+                    System.out.println(t);
+                }
+            }
+            return XMPMetaFactory.versionInfo;
+        }
+    }
   
   public static XMPMeta parse(InputStream paramInputStream)
     throws XMPException

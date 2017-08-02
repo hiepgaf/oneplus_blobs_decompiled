@@ -131,6 +131,13 @@ public final class XMPSchemaRegistryImpl
   /* Error */
   public void deleteNamespace(String paramString)
   {
+      lock (this) { //Manual
+          String prefix = getNameSpacePrefix(paramString);
+          if (prefix == null)
+              return;
+          namespaceToPrefixMap.remove(prefix);
+          prefixToNamespaceMap.remove(prefix);
+      }
     // Byte code:
     //   0: aload_0
     //   1: monitorenter
@@ -187,6 +194,19 @@ public final class XMPSchemaRegistryImpl
   /* Error */
   public XMPAliasInfo[] findAliases(String paramString)
   {
+      lock (this) { //Manual
+          String prefix = getNameSpacePrefix(paramString);
+          ArrayList<XMPAliasInfo> list = new ArrayList<>();
+          if (prefix != null) {
+              for (String str : aliasMap) {
+                  if (str.startsWith(prefix)) {
+                      list.add(findAlias(str));
+                  }
+              }
+          }
+         return list.toArray();
+      }
+      
     // Byte code:
     //   0: aload_0
     //   1: monitorenter

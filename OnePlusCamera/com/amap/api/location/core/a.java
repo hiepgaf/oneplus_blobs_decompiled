@@ -16,29 +16,20 @@ public class a
     return b;
   }
   
-  public static String a(String paramString)
-  {
-    Object localObject = paramString.split("&");
-    Arrays.sort((Object[])localObject);
-    StringBuffer localStringBuffer = new StringBuffer();
-    int j = localObject.length;
-    int i = 0;
-    for (;;)
-    {
-      if (i >= j)
-      {
-        localObject = localStringBuffer.toString();
-        if (((String)localObject).length() > 1) {
-          break;
+    public static String a(final String s) {
+        final String[] split = s.split("&");
+        Arrays.sort(split);
+        final StringBuffer sb = new StringBuffer();
+        for (int length = split.length, i = 0; i < length; ++i) {
+            sb.append(split[i]);
+            sb.append("&");
         }
-        return paramString;
-      }
-      localStringBuffer.append(localObject[i]);
-      localStringBuffer.append("&");
-      i += 1;
+        final String string = sb.toString();
+        if (string.length() <= 1) {
+            return s;
+        }
+        return (String)string.subSequence(0, string.length() - 1);
     }
-    return (String)((String)localObject).subSequence(0, ((String)localObject).length() - 1);
-  }
   
   public static boolean a(Context paramContext)
   {
@@ -107,53 +98,20 @@ public class a
     return localStringBuffer.toString();
   }
   
-  private static boolean c(String paramString)
-  {
-    try
-    {
-      paramString = new JSONObject(paramString);
-      if (!paramString.has("status")) {}
-      for (;;)
-      {
-        if (paramString.has("info")) {
-          break label86;
+    private static boolean c(final String s) { //this one took a while
+        JSONObject jsonObject = new JSONObject(s);
+        if (jsonObject.has("status")) {
+                com.amap.api.location.core.a.b = jsonObject.getInt("status");
         }
-        int i = b;
-        if (i == 0) {
-          break label98;
+        if (jsonObject.has("info")) {
+            com.amap.api.location.core.a.a = jsonObject.getString("info");
         }
-        if (b == 1) {
-          break label110;
+        if (com.amap.api.location.core.a.b == 0) {
+                Log.i("AuthFailure", com.amap.api.location.core.a.a);
         }
-        return false;
-        i = paramString.getInt("status");
-        if (i == 1) {
-          break;
-        }
-        if (i == 0) {
-          b = 0;
-        }
-      }
+        
+        return (com.amap.api.location.core.a.b == 1);
     }
-    catch (Exception paramString)
-    {
-      for (;;)
-      {
-        paramString.printStackTrace();
-        b = 0;
-        continue;
-        b = 1;
-        continue;
-        label86:
-        a = paramString.getString("info");
-        continue;
-        label98:
-        Log.i("AuthFailure", a);
-      }
-    }
-    label110:
-    return true;
-  }
   
   private static byte[] c()
   {

@@ -1,89 +1,78 @@
+// 
+// Decompiled by Procyon v0.5.30
+// 
+
 package com.adobe.xmp.impl;
 
 import com.adobe.xmp.XMPException;
 
 class ParseState
 {
-  private int pos = 0;
-  private String str;
-  
-  public ParseState(String paramString)
-  {
-    this.str = paramString;
-  }
-  
-  public char ch()
-  {
-    if (this.pos >= this.str.length()) {
-      return '\000';
+    private int pos;
+    private String str;
+    
+    public ParseState(final String str) {
+        this.pos = 0;
+        this.str = str;
     }
-    return this.str.charAt(this.pos);
-  }
-  
-  public char ch(int paramInt)
-  {
-    if (paramInt >= this.str.length()) {
-      return '\000';
-    }
-    return this.str.charAt(paramInt);
-  }
-  
-  public int gatherInt(String paramString, int paramInt)
-    throws XMPException
-  {
-    int i = ch(this.pos);
-    int j = 0;
-    int k = 0;
-    for (;;)
-    {
-      if (48 > i) {}
-      while (i > 57)
-      {
-        if (j != 0) {
-          break;
+    
+    public char ch() {
+        char char1;
+        if (this.pos >= this.str.length()) {
+            char1 = '\0';
         }
-        throw new XMPException(paramString, 5);
-      }
-      k = k * 10 + (i - 48);
-      j = 1;
-      this.pos += 1;
-      i = ch(this.pos);
+        else {
+            char1 = this.str.charAt(this.pos);
+        }
+        return char1;
     }
-    if (k <= paramInt)
-    {
-      if (k >= 0) {
-        return k;
-      }
+    
+    public char ch(final int n) {
+        char char1;
+        if (n >= this.str.length()) {
+            char1 = '\0';
+        }
+        else {
+            char1 = this.str.charAt(n);
+        }
+        return char1;
     }
-    else {
-      return paramInt;
+    
+    public int gatherInt(final String s, final int n) {
+        char c = this.ch(this.pos);
+        int n2 = 0;
+        int n3 = 0;
+        while ('0' <= c && c <= '9') {
+            n3 = n3 * 10 + (c - 48);
+            n2 = 1;
+            ++this.pos;
+            c = this.ch(this.pos);
+        }
+        if (n2 == 0) {
+            throw new XMPException(s, 5);
+        }
+        if (n3 > n) {
+            return n;
+        }
+        if (n3 >= 0) {
+            return n3;
+        }
+        return 0;
     }
-    return 0;
-  }
-  
-  public boolean hasNext()
-  {
-    return this.pos < this.str.length();
-  }
-  
-  public int length()
-  {
-    return this.str.length();
-  }
-  
-  public int pos()
-  {
-    return this.pos;
-  }
-  
-  public void skip()
-  {
-    this.pos += 1;
-  }
+    
+    public boolean hasNext() {
+        return this.pos < this.str.length();
+    }
+    
+    public int length() {
+        return this.str.length();
+    }
+    
+    public int pos() {
+        return this.pos;
+    }
+    
+    public void skip() {
+        ++this.pos;
+    }
 }
-
-
-/* Location:              /Users/joshua/Desktop/system_framework/classes-dex2jar.jar!/com/adobe/xmp/impl/ParseState.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */

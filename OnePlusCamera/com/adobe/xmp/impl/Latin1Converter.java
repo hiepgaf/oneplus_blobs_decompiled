@@ -1,132 +1,115 @@
+// 
+// Decompiled by Procyon v0.5.30
+// 
+
 package com.adobe.xmp.impl;
 
 import java.io.UnsupportedEncodingException;
 
 public class Latin1Converter
 {
-  private static final int STATE_START = 0;
-  private static final int STATE_UTF8CHAR = 11;
-  
-  public static ByteBuffer convert(ByteBuffer paramByteBuffer)
-  {
-    int i1 = 0;
-    if (!"UTF-8".equals(paramByteBuffer.getEncoding())) {
-      return paramByteBuffer;
+    private static final int STATE_START = 0;
+    private static final int STATE_UTF8CHAR = 11;
+    
+    public static ByteBuffer convert(final ByteBuffer byteBuffer) {
+        final int n = 128;
+        final int n2 = 11;
+        final int n3 = 8;
+        int i = 0;
+        if (!"UTF-8".equals(byteBuffer.getEncoding())) {
+            return byteBuffer;
+        }
+        final byte[] array = new byte[n3];
+        final ByteBuffer byteBuffer2 = new ByteBuffer(byteBuffer.length() * 4 / 3);
+        int j = 0;
+        int n4 = 0;
+        int n5 = 0;
+        int n6 = 0;
+        while (j < byteBuffer.length()) {
+            final int char1 = byteBuffer.charAt(j);
+            int n7 = 0;
+            switch (n4) {
+                default: {
+                    if (char1 < 127) {
+                        byteBuffer2.append((byte)char1);
+                        n7 = n6;
+                        break;
+                    }
+                    if (char1 < 192) {
+                        byteBuffer2.append(convertToUTF8((byte)char1));
+                        n7 = n6;
+                        break;
+                    }
+                    int n8 = -1;
+                    int n10;
+                    for (int n9 = char1; n8 < n3 && (n9 & 0x80) == n; n9 <<= 1, n8 = n10) {
+                        n10 = n8 + 1;
+                    }
+                    final int n11 = n6 + 1;
+                    array[n6] = (byte)char1;
+                    n7 = n11;
+                    n5 = n8;
+                    n4 = n2;
+                    break;
+                }
+                case 11: {
+                    if (n5 <= 0 || (char1 & 0xC0) != n) {
+                        byteBuffer2.append(convertToUTF8(array[0]));
+                        j -= n6;
+                        n4 = 0;
+                        n7 = 0;
+                        break;
+                    }
+                    n7 = n6 + 1;
+                    array[n6] = (byte)char1;
+                    --n5;
+                    if (n5 == 0) {
+                        byteBuffer2.append(array, 0, n7);
+                        n4 = 0;
+                        n7 = 0;
+                        break;
+                    }
+                    break;
+                }
+            }
+            ++j;
+            n6 = n7;
+        }
+        if (n4 == n2) {
+            while (i < n6) {
+                byteBuffer2.append(convertToUTF8(array[i]));
+                ++i;
+            }
+        }
+        return byteBuffer2;
     }
-    byte[] arrayOfByte = new byte[8];
-    ByteBuffer localByteBuffer = new ByteBuffer(paramByteBuffer.length() * 4 / 3);
-    int k = 0;
-    int j = 0;
-    int m = 0;
-    int i = 0;
-    if (k < paramByteBuffer.length())
-    {
-      int n = paramByteBuffer.charAt(k);
-      switch (j)
-      {
-      case 0: 
-      default: 
-        if (n >= 127)
-        {
-          if (n >= 192) {
-            break label143;
-          }
-          localByteBuffer.append(convertToUTF8((byte)n));
-          n = k;
+    
+    private static byte[] convertToUTF8(final byte b) {
+        final int n = 1;
+        final int n2 = b & 0xFF;
+        if (n2 >= 128) {
+            Label_0067: {
+                if (n2 != 129) {
+                    break Label_0067;
+                }
+            Label_0042:
+                while (true) {
+                    final int n3 = 1;
+                    try {
+                        final byte[] array = new byte[n3];
+                        array[0] = 32;
+                        return array;
+                        // iftrue(Label_0042:, n2 == 141 || n2 == 143 || n2 == 144 || n2 == 157)
+                        return new String(new byte[] { b }, "cp1252").getBytes("UTF-8");
+                    }
+                    catch (UnsupportedEncodingException ex) {
+                        break;
+                    }
+                }
+            }
         }
-        break;
-      }
-      for (;;)
-      {
-        k = n + 1;
-        break;
-        localByteBuffer.append((byte)n);
-        n = k;
-        continue;
-        label143:
-        j = -1;
-        m = n;
-        for (;;)
-        {
-          if (j >= 8) {}
-          while ((m & 0x80) != 128)
-          {
-            arrayOfByte[i] = ((byte)(byte)n);
-            i += 1;
-            m = j;
-            j = 11;
-            n = k;
-            break;
-          }
-          m <<= 1;
-          j += 1;
-        }
-        if (m <= 0) {}
-        while ((n & 0xC0) != 128)
-        {
-          localByteBuffer.append(convertToUTF8(arrayOfByte[0]));
-          n = k - i;
-          j = 0;
-          i = 0;
-          break;
-        }
-        int i2 = i + 1;
-        arrayOfByte[i] = ((byte)(byte)n);
-        int i3 = m - 1;
-        n = k;
-        m = i3;
-        i = i2;
-        if (i3 == 0)
-        {
-          localByteBuffer.append(arrayOfByte, 0, i2);
-          j = 0;
-          i = 0;
-          n = k;
-          m = i3;
-        }
-      }
+        final byte[] array2 = new byte[n];
+        array2[0] = b;
+        return array2;
     }
-    k = i1;
-    if (j != 11) {
-      return localByteBuffer;
-    }
-    for (;;)
-    {
-      localByteBuffer.append(convertToUTF8(arrayOfByte[k]));
-      k += 1;
-      if (k >= i) {
-        break;
-      }
-    }
-  }
-  
-  private static byte[] convertToUTF8(byte paramByte)
-  {
-    int i = paramByte & 0xFF;
-    if (i < 128) {}
-    for (;;)
-    {
-      return new byte[] { (byte)paramByte };
-      if (i == 129) {}
-      for (;;)
-      {
-        try
-        {
-          return new byte[] { 32 };
-        }
-        catch (UnsupportedEncodingException localUnsupportedEncodingException) {}
-        if ((i != 141) && (i != 143) && (i != 144) && (i != 157))
-        {
-          byte[] arrayOfByte = new String(new byte[] { (byte)paramByte }, "cp1252").getBytes("UTF-8");
-          return arrayOfByte;
-        }
-      }
-    }
-  }
 }
-
-
-/* Location:              /Users/joshua/Desktop/system_framework/classes-dex2jar.jar!/com/adobe/xmp/impl/Latin1Converter.class
- * Java compiler version: 6 (50.0)
- * JD-Core Version:       0.7.1
- */
