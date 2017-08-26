@@ -22,6 +22,8 @@ A classes-dex2jar.jar should be produced.
 Just launch JD-GUI and open classes-dex2jar.jar.
 Save all source files somewhere.
 
+## Decompile deodexed jar with procyon
+java -jar procyon.jar classes-dex2jar.jar --out src
 
 -------
 
